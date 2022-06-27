@@ -1,10 +1,18 @@
 import { CheckCircle, Lock } from 'phosphor-react';
 
 interface BouldersListProps {
-	title: string;
-	slug: string;
-	updatedAt: Date;
-	type: 'photo' | 'video';
+	name: string;
+	description: string;
+	conditions?: string;
+	videourl?: string;
+	updatedAt: string;
+	photos?: {
+		fileName: string;
+	};
+	location?: {
+		latitude: string;
+		longitude: string;
+	};
 }
 
 export function BouldersList(props: BouldersListProps) {
@@ -12,9 +20,7 @@ export function BouldersList(props: BouldersListProps) {
 
 	return (
 		<a href="#">
-			<span className="text-gray-300">
-				{props.updatedAt.toLocaleDateString('pt-br')}
-			</span>
+			<span className="text-gray-300">{props.updatedAt}</span>
 
 			<div className="rounded border border-gray-500 p-4 mt-2">
 				<header className="flex items-center justify-between">
@@ -31,11 +37,11 @@ export function BouldersList(props: BouldersListProps) {
 					)}
 
 					<span className="text-xs rounded py-[2px] px-2 text-white border border-green-300 font-bold">
-						{props.type === 'video' ? 'Vídeos' : 'Fotos'}
+						Fotos
 					</span>
 				</header>
 
-				<span className="text-gray-200 mt-5 block">{props.title}</span>
+				<span className="text-gray-200 mt-5 block">{props.name}</span>
 			</div>
 		</a>
 	);
