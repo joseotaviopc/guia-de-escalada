@@ -1,7 +1,11 @@
 import { CheckCircle, Lock } from 'phosphor-react';
+import { isPast, format, parseISO } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+import { Link } from 'react-router-dom';
 
-interface BouldersListProps {
+interface BoulderProps {
 	name: string;
+	slug: string;
 	description: string;
 	conditions?: string;
 	videourl?: string;
@@ -15,14 +19,22 @@ interface BouldersListProps {
 	};
 }
 
-export function BouldersList(props: BouldersListProps) {
-	const isBouldersUpdated = true;
+export function Boulder(props: BoulderProps) {
+	const isBouldersUpdated = isPast(parseISO(props.updatedAt));
+	console.log(props);
+	const updatedBoulderFormated = format(
+		parseISO(props.updatedAt),
+		"EEEE' • 'd' de 'MMMM' • 'K'h'mm",
+		{
+			locale: ptBR,
+		}
+	);
 
 	return (
-		<a href="#">
-			<span className="text-gray-300">{props.updatedAt}</span>
+		<Link to={`/boulders/boulder/${props.slug}`} className="group">
+			<span className="text-gray-300">{updatedBoulderFormated}</span>
 
-			<div className="rounded border border-gray-500 p-4 mt-2">
+			<div className="rounded border border-gray-500 p-4 mt-2 group-hover:border-green-500">
 				<header className="flex items-center justify-between">
 					{isBouldersUpdated ? (
 						<span className="text-sm text-blue-500 font-medium flex items-center gap-2 ">
@@ -43,6 +55,6 @@ export function BouldersList(props: BouldersListProps) {
 
 				<span className="text-gray-200 mt-5 block">{props.name}</span>
 			</div>
-		</a>
+		</Link>
 	);
 }

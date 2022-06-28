@@ -1,12 +1,12 @@
 import { gql, useQuery } from '@apollo/client';
-import { Key } from 'react';
-import { BouldersList } from './BouldersList';
+import { Boulder } from './Boulder';
 
 const GET_BOULDERS_QUERY = gql`
 	query {
 		boulders(orderBy: updatedAt_DESC, stage: PUBLISHED) {
 			id
 			name
+			slug
 			description
 			conditions
 			videourl
@@ -26,6 +26,7 @@ interface GetBouldersQueryResponse {
 	boulders: {
 		id: string;
 		name: string;
+		slug: string;
 		description: string;
 		conditions?: string;
 		videourl?: string;
@@ -52,9 +53,10 @@ export function Sidebar() {
 			<div className="flex flex-col gap-8">
 				{data?.boulders.map((boulder) => {
 					return (
-						<BouldersList
+						<Boulder
 							key={boulder.id}
 							name={boulder.name}
+							slug={boulder.slug}
 							description={boulder.description}
 							updatedAt={boulder.updatedAt}
 						/>
