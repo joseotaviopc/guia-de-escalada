@@ -3,6 +3,9 @@ module.exports = {
 	content: ['./src/**/*.{html,js,ts,jsx,tsx}'],
 	theme: {
 		extend: {
+			backgroundImage: {
+				subscribeImg: 'url(/src/assets/bg-blur.png)',
+			},
 			fontFamily: {
 				sans: 'Roboto, sans-serif',
 			},
