@@ -1,0 +1,18 @@
+query GetBoulders {
+	boulders(orderBy: updatedAt_DESC, stage: PUBLISHED) {
+		id
+		name
+		slug
+		description
+		conditions
+		videourl
+		updatedAt
+		photos {
+			fileName
+		}
+		location {
+			latitude
+			longitude
+		}
+	}
+}

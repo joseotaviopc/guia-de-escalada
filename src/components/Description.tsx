@@ -5,45 +5,10 @@ import {
 	InstagramLogo,
 	Lightning,
 } from 'phosphor-react';
-import { gql, useQuery } from '@apollo/client';
 
 import '@vime/core/themes/default.css';
+import { useGetBoulderBySlugQuery } from '../graphql/generated';
 
-const GET_BOULDER_BY_SLUG_QUERY = gql`
-	query GetBoulderBySlug($slug: String) {
-		boulder(where: { slug: $slug }) {
-			name
-			conditions
-			description
-			updatedAt
-			photos {
-				fileName
-			}
-			videourl
-			location {
-				latitude
-				longitude
-			}
-		}
-	}
-`;
-
-interface GetBoulderBySlugResponse {
-	boulder: {
-		name: string;
-		conditions: string;
-		description: string;
-		updatedAt: string;
-		photos: {
-			filename: string;
-		};
-		videourl: string;
-		location: {
-			latitude: number;
-			longitude: number;
-		};
-	};
-}
 interface DescriptionProps {
 	boulderSlug: string;
 }
@@ -56,16 +21,13 @@ interface DescriptionProps {
 }
 
 export function Description(props: DescriptionProps) {
-	const { data } = useQuery<GetBoulderBySlugResponse>(
-		GET_BOULDER_BY_SLUG_QUERY,
-		{
-			variables: {
-				slug: props.boulderSlug,
-			},
-		}
-	);
+	const { data } = useGetBoulderBySlugQuery({
+		variables: {
+			slug: props.boulderSlug,
+		},
+	});
 
-	if (!data) {
+	if (!data || !data.boulder) {
 		return (
 			<div className="flex-1">
 				<h1>Carregando....</h1>
@@ -78,7 +40,7 @@ export function Description(props: DescriptionProps) {
 			<div className="bg-black flex justify-center">
 				<div className="h-full w-full max-w-[1100px] max-h-[60vh] aspect-video">
 					<Player>
-						<Youtube videoId={data.boulder?.videourl} />
+						<Youtube videoId={data.boulder.videourl} />
 						<DefaultUi />
 					</Player>
 				</div>

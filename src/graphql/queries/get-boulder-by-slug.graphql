@@ -1,0 +1,16 @@
+query GetBoulderBySlug($slug: String) {
+	boulder(where: { slug: $slug }) {
+		name
+		conditions
+		description
+		updatedAt
+		photos {
+			fileName
+		}
+		videourl
+		location {
+			latitude
+			longitude
+		}
+	}
+}

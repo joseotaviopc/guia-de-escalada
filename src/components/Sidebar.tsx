@@ -1,48 +1,8 @@
-import { gql, useQuery } from '@apollo/client';
+import { useGetBouldersQuery } from '../graphql/generated';
 import { Boulder } from './Boulder';
 
-const GET_BOULDERS_QUERY = gql`
-	query {
-		boulders(orderBy: updatedAt_DESC, stage: PUBLISHED) {
-			id
-			name
-			slug
-			description
-			conditions
-			videourl
-			updatedAt
-			photos {
-				fileName
-			}
-			location {
-				latitude
-				longitude
-			}
-		}
-	}
-`;
-
-interface GetBouldersQueryResponse {
-	boulders: {
-		id: string;
-		name: string;
-		slug: string;
-		description: string;
-		conditions?: string;
-		videourl?: string;
-		updatedAt: string;
-		photos?: {
-			fileName: string;
-		};
-		location?: {
-			latitude: string;
-			longitude: string;
-		};
-	}[];
-}
-
 export function Sidebar() {
-	const { data } = useQuery<GetBouldersQueryResponse>(GET_BOULDERS_QUERY);
+	const { data } = useGetBouldersQuery();
 
 	return (
 		<aside className="w-80 bg-gray-700 p-6 border-l	border-gray-600">
