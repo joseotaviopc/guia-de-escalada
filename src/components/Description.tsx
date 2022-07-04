@@ -8,15 +8,28 @@ import {
 
 import '@vime/core/themes/default.css';
 import { useGetBoulderBySlugQuery } from '../graphql/generated';
+import { LoadingCircle } from './LoadingCircle';
 
 interface DescriptionProps {
 	boulderSlug: string;
 }
 {
 	/* ------------TODO------------
-	Criar botoes como componentes!!! 
-	Fazer a página responsiva
-	fazer pagina de loading
+	- Home: opção de login/esqueci senha/cadastro
+	- Home: Foto de fundo
+	- Home: Validação input/usuario/senha
+
+	- Boulders: Menu: Logado/user
+	- Boulders: Menu: Links(Trad/Esportiva/Boulder/Psicobloc)
+	
+	- Pag Criar Climb: Validação inputs/criar mutation
+	- Redireciona para o item criado
+
+	- Perfil: pagina pra edição do perfil
+	- Criar botoes como componentes!!! 
+	- Componente de loading
+	- Layout responsivo
+
 	------------------------------- */
 }
 
@@ -29,8 +42,8 @@ export function Description(props: DescriptionProps) {
 
 	if (!data || !data.boulder) {
 		return (
-			<div className="flex-1">
-				<h1>Carregando....</h1>
+			<div className="flex-1 p-4">
+				<LoadingCircle />
 			</div>
 		);
 	}
