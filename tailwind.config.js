@@ -4,7 +4,7 @@ module.exports = {
 	theme: {
 		extend: {
 			backgroundImage: {
-				subscribeImg: 'url(/src/public/assets/bg-blur.png)',
+				subscribeImg: 'url(/assets/bg-blur.png)',
 			},
 			fontFamily: {
 				sans: 'Roboto, sans-serif',
