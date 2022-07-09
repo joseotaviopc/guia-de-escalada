@@ -76,11 +76,7 @@ export function Subscribe() {
 				</div>
 			</div>
 
-			<img
-				className="mt-10 opacity-70"
-				src="/src/public/assets/bg-home.jpg"
-				alt=""
-			/>
+			<img className="mt-10 opacity-70" src="/assets/bg-home.jpg" alt="" />
 		</div>
 	);
 }
