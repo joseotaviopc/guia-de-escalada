@@ -1,0 +1,19 @@
+mutation CreateClimber(
+	$firstname: String!
+	$lastname: String!
+	$password: String!
+	$email: String!
+) {
+	createClimber(
+		data: {
+			email: $email
+			password: $password
+			firstname: $firstname
+			lastname: $lastname
+		}
+	) {
+		id
+		firstname
+		lastname
+	}
+}

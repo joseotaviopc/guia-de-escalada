@@ -1,0 +1,7 @@
+query getClimberByEmail($email: String!) {
+	climber(where: { email: $email }) {
+		id
+		email
+		password
+	}
+}
