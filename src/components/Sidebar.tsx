@@ -5,7 +5,7 @@ export function Sidebar() {
 	const { data } = useGetBouldersQuery();
 
 	return (
-		<aside className="w-80 bg-gray-700 p-6 border-l	border-gray-600">
+		<aside className="w-80 bg-gray-50 dark:bg-gray-700 p-6 border-r border-gray-100	dark:border-gray-600">
 			<span className="font-bold text-2xl pb-6 mb-6 border-b border-gray-500 block">
 				Setores de climb
 			</span>

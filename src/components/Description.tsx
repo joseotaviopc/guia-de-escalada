@@ -49,8 +49,8 @@ export function Description(props: DescriptionProps) {
 	}
 
 	return (
-		<div className="flex-1">
-			<div className="bg-black flex justify-center">
+		<div className="flex-1 bg-gray-50 dark:bg-gray-700">
+			<div className=" flex justify-center">
 				<div className="h-full w-full max-w-[1100px] max-h-[60vh] aspect-video">
 					<Player>
 						<Youtube videoId={data.boulder.videourl} />
