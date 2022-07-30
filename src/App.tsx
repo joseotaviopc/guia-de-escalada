@@ -1,14 +1,13 @@
 import { ApolloProvider } from '@apollo/client';
-import { BrowserRouter } from 'react-router-dom';
-import { Router } from './Router';
+import { AppRoutes } from "./routes/Router";
 import { client } from './lib/apollo';
 
 function App() {
 	return (
+		// ThemeProvider
+		// Toaster
 		<ApolloProvider client={client}>
-			<BrowserRouter>
-				<Router />
-			</BrowserRouter>
+				<AppRoutes />
 		</ApolloProvider>
 	);
 }
