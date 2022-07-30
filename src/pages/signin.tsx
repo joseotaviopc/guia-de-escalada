@@ -5,23 +5,23 @@
 // 5-Redirect the user to Home page
 
 // import React from 'react';
-import { getAuthenticatedUser, storeTokenInLocalStorage } from '../lib/common';
-import { useState, useEffect } from 'react';
-import { API_ROUTES, APP_ROUTES } from '../utils/constants';
-import axios from 'axios';
+import { getAuthenticatedUser, storeTokenInLocalStorage } from "../lib/common";
+import { useState, useEffect } from "react";
+import { API_ROUTES, APP_ROUTES } from "../utils/constants";
+import axios from "axios";
 // import Link from 'next/link';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from "react-router-dom";
 
 export default function SignIn() {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 
 	const redirectIfAuthenticated = async () => {
 		const isUserAuthenticated = await getAuthenticatedUser();
 		if (isUserAuthenticated?.authenticated) {
-			navigate('/');
+			navigate("/");
 		}
 	};
 
@@ -33,7 +33,7 @@ export default function SignIn() {
 		try {
 			setIsLoading(true);
 			const response = await axios({
-				method: 'post',
+				method: "post",
 				url: API_ROUTES.SIGN_IN,
 				data: {
 					email,
@@ -41,14 +41,14 @@ export default function SignIn() {
 				},
 			});
 			if (!response?.data?.token) {
-				console.log('Something went wrong during signing in: ', response);
+				console.log("Something went wrong during signing in: ", response);
 				return;
 			}
 			storeTokenInLocalStorage(response.data.token);
 			navigate(APP_ROUTES.HOME);
 		} catch (err) {
-			console.log('Some error occured during signing in: ', err);
-			navigate('/subscribe');
+			console.log("Some error occured during signing in: ", err);
+			navigate("/subscribe");
 		} finally {
 			setIsLoading(false);
 		}
@@ -56,12 +56,12 @@ export default function SignIn() {
 	return (
 		<div className="w-full h-screen flex justify-center items-center">
 			<div className="w-1/2 h-auto flex flex-col p-8 bg-gray-700 border border-gray-500 rounded">
-				<h2 className="text-center font-medium text-2xl mb-4">Sign in</h2>
+				<h2 className="text-center font-medium text-2xl mb-4">Bem vindo</h2>
 				<div className="flex flex-1 flex-col justify-evenly gap-2">
 					<input
 						className="bg-gray-900 rounded px-5 h-14 w-full"
 						type="email"
-						placeholder="Enter Your Email"
+						placeholder="Digite seu Email"
 						value={email}
 						onChange={(e) => {
 							setEmail(e.target.value);
@@ -79,19 +79,19 @@ export default function SignIn() {
 
 					<button
 						className="
-            block mt-4 bg-green-500 uppercase py-4 rounded font-medium text-sm w-full tracking-wider hover:bg-green-700 transition-colors disabled:opacity-50"
+            block my-4 bg-green-500 uppercase py-4 rounded font-medium text-sm w-full tracking-wider hover:bg-green-700 transition-colors disabled:opacity-50"
 						onClick={signIn}
 					>
 						{isLoading ? (
 							<div className="mr-2 w-5 h-5 border-l-2 rounded-full animate-spin" />
 						) : null}
-						<span>SIGN IN</span>
+						<span className="uppercase">Entrar</span>
 					</button>
 				</div>
 				<div className="text-center text-sm">
-					Not a User?
+					Não tem conta?
 					<Link to="/signup">
-						<a className="font-medium text-blue-900 ml-1">Sign Up</a>
+						<a className="font-medium text-blue-900 ml-2">Criar conta</a>
 					</Link>
 				</div>
 			</div>
