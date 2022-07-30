@@ -10,6 +10,7 @@ export function Boulders() {
 		<div className="flex flex-col min-h-screen">
 			<Header />
 			<main className="flex flex-1">
+				<Sidebar />
 				{slug ? (
 					<Description boulderSlug={slug} />
 				) : (
@@ -18,7 +19,6 @@ export function Boulders() {
 					</div>
 				)}
 
-				<Sidebar />
 			</main>
 		</div>
 	);
