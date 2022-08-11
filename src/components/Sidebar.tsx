@@ -1,17 +1,26 @@
-import { useGetBouldersQuery } from '../graphql/generated';
-import { Boulder } from './Boulder';
+import { useGetClimbSpotsQuery } from "../graphql/generated";
+import { SidebarProps } from "../types/components";
+import { Boulder } from "./Boulder";
+import classNames from "classnames";
 
-export function Sidebar() {
-	const { data } = useGetBouldersQuery();
+export function Sidebar({ themeDark, setThemeDark }: SidebarProps) {
+	const { data } = useGetClimbSpotsQuery();
 
 	return (
-		<aside className="w-80 bg-gray-50 dark:bg-gray-700 p-6 border-r border-gray-100	dark:border-gray-600">
-			<span className="font-bold text-2xl pb-6 mb-6 border-b border-gray-500 block">
+		<aside className="w-80 bg-gray-50 dark:bg-gray-700 p-6 border-r border-gray-100	dark:border-gray-600 hidden lg:block">
+			<span
+				className={classNames(
+					"font-bold text-2xl pb-6 mb-6 border-b border-gray-500 block",
+					{
+						"text-gray-500": !themeDark,
+					}
+				)}
+			>
 				Setores de climb
 			</span>
 
 			<div className="flex flex-col gap-8">
-				{data?.boulders.map((boulder) => {
+				{data?.climbSpots.map((boulder) => {
 					return (
 						<Boulder
 							key={boulder.id}
@@ -19,6 +28,7 @@ export function Sidebar() {
 							slug={boulder.slug}
 							description={boulder.description}
 							updatedAt={boulder.updatedAt}
+							themeDark={themeDark}
 						/>
 					);
 				})}

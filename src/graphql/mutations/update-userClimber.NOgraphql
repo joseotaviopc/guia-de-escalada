@@ -1,8 +1,8 @@
-mutation updateClimber(
+mutation updateUserClimber(
 	$where: ClimberWhereUniqueInput!
 	$data: ClimberUpdateInput!
 ) {
-	updateClimber(data: $data, where: $where) {
+	updateUserClimber(data: $data, where: $where) {
 		token
 		email
 	}

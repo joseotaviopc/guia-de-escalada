@@ -88,10 +88,13 @@ export default function SignIn() {
 						<span className="uppercase">Entrar</span>
 					</button>
 				</div>
-				<div className="text-center text-sm">
+				<div className="text-center text-base">
 					Não tem conta?
 					<Link to="/signup">
-						<a className="font-medium text-blue-900 ml-2">Criar conta</a>
+						<a className="font-medium text-gray-300 ml-2">Criar conta</a>
+					</Link>
+					<Link to="/boulders">
+						<a className="font-medium text-gray-300 ml-2">Visitante</a>
 					</Link>
 				</div>
 			</div>

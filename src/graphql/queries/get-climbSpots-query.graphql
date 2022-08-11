@@ -1,5 +1,5 @@
-query GetBoulders {
-	boulders(orderBy: updatedAt_DESC, stage: PUBLISHED) {
+query GetClimbSpots {
+	climbSpots(orderBy: updatedAt_DESC, stage: PUBLISHED) {
 		id
 		name
 		slug

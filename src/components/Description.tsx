@@ -1,46 +1,32 @@
-import { DefaultUi, Player, Youtube } from '@vime/react';
+import { DefaultUi, Player, Youtube } from "@vime/react";
 import {
 	CaretRight,
 	FileArrowDown,
 	InstagramLogo,
 	Lightning,
-} from 'phosphor-react';
+} from "phosphor-react";
 
-import '@vime/core/themes/default.css';
-import { useGetBoulderBySlugQuery } from '../graphql/generated';
-import { LoadingCircle } from './LoadingCircle';
+import "@vime/core/themes/default.css";
+import { useGetClimbSpotsBySlugQuery } from "../graphql/generated";
+import { LoadingCircle } from "./LoadingCircle";
+import { DescriptionProps } from "../types/components";
+import classNames from "classnames";
 
-interface DescriptionProps {
-	boulderSlug: string;
-}
 {
-	/* ------------TODO------------
-	- Home: opção de login/esqueci senha/cadastro
-	- Home: Foto de fundo
-	- Home: Validação input/usuario/senha
-
-	- Boulders: Menu: Logado/user
-	- Boulders: Menu: Links(Trad/Esportiva/Boulder/Psicobloc)
-	
-	- Pag Criar Climb: Validação inputs/criar mutation
-	- Redireciona para o item criado
-
-	- Perfil: pagina pra edição do perfil
-	- Criar botoes como componentes!!! 
-	- Componente de loading
-	- Layout responsivo
-
-	------------------------------- */
 }
 
-export function Description(props: DescriptionProps) {
-	const { data } = useGetBoulderBySlugQuery({
+export function Description({
+	boulderSlug,
+	themeDark,
+	setThemeDark,
+}: DescriptionProps) {
+	const { data } = useGetClimbSpotsBySlugQuery({
 		variables: {
-			slug: props.boulderSlug,
+			slug: boulderSlug,
 		},
 	});
 
-	if (!data || !data.boulder) {
+	if (!data || !data.climbSpot) {
 		return (
 			<div className="flex-1 p-4">
 				<LoadingCircle />
@@ -53,39 +39,63 @@ export function Description(props: DescriptionProps) {
 			<div className=" flex justify-center">
 				<div className="h-full w-full max-w-[1100px] max-h-[60vh] aspect-video">
 					<Player>
-						<Youtube videoId={data.boulder.videourl} />
+						<Youtube videoId={data.climbSpot.videourl} />
 						<DefaultUi />
 					</Player>
 				</div>
 			</div>
 
 			<div className="p-8 max-w-[1100px] mx-auto">
-				<div className="flex items-start gap-16">
+				<div className="flex items-start gap-16 flex-col sm:flex-row  ">
 					<div className="flex-1">
-						<h1 className="text-2xl font-bold">{data.boulder.name}</h1>
-						<p className="mt-4 text-gray-200 leading-relaxed">
-							{data.boulder.description}
+						<h1
+							className={classNames("text-2xl font-bold", {
+								"text-gray-500": !themeDark,
+							})}
+						>
+							{data.climbSpot.name}
+						</h1>
+						<p
+							className={classNames("mt-4 text-gray-200 leading-relaxed", {
+								"text-gray-500": !themeDark,
+							})}
+						>
+							{data.climbSpot.description}
 						</p>
 
 						<div className="flex items-center gap-4 mt-6">
 							<img
-								className="h-16 w-16 rounded-full border-2 border-blue-500"
+								className={classNames(
+									"h-16 w-16 rounded-full border-2 border-blue-500",
+									{ "border-blue-800": !themeDark }
+								)}
 								src="https://github.com/joseotaviopc.png"
 								alt=""
 							/>
 
 							<div className="leading-relaxed">
-								<strong className="font-semibold tracking-wide text-xl block">
+								<strong
+									className={classNames(
+										"font-semibold tracking-wide text-xl block",
+										{
+											"text-gray-500": !themeDark,
+										}
+									)}
+								>
 									José Otavio
 								</strong>
-								<span className="text-gray-200 text-sm block">
+								<span
+									className={classNames("text-gray-200 text-sm block", {
+										"text-gray-500": !themeDark,
+									})}
+								>
 									Frontend Dev
 								</span>
 							</div>
 						</div>
 					</div>
 
-					<div className="flex flex-col gap-4">
+					<div className="flex flex-row justify-between gap-4 w-full sm:flex-col sm:w-auto sm:items-center">
 						<a
 							href="#"
 							className="p-4 text-sm bg-green-500 flex items-center rounded font-bold uppercase gap-2 justify-center hover:bg-green-700 transition-colors"
@@ -100,7 +110,13 @@ export function Description(props: DescriptionProps) {
 
 						<a
 							href="#"
-							className="p-4 text-sm border border-blue-500 text-blue-500 flex items-center rounded font-bold uppercase gap-2 justify-center hover:bg-blue-500 hover:text-gray-900 transition-colors"
+							className={classNames(
+								"p-4 text-sm border border-blue-500 text-blue-500 flex items-center rounded font-bold uppercase gap-2 justify-center hover:bg-blue-500 hover:text-gray-900 transition-colors",
+								{
+									"border-blue-800 text-blue-800 hover:bg-blue-800 hover:text-gray-200":
+										!themeDark,
+								}
+							)}
 						>
 							<Lightning size={24} />
 							Acesse agora
@@ -108,7 +124,7 @@ export function Description(props: DescriptionProps) {
 					</div>
 				</div>
 
-				<div className="gap-8 mt-20 grid grid-cols-2">
+				<div className="gap-8 mt-20 grid grid-cols-1 md:grid-cols-2">
 					<a
 						href="#"
 						className="bg-gray-700 rounded overflow-hidden flex items-stretch gap-6 hover:bg-gray-600 transition-colors"

@@ -1,66 +1,56 @@
-import { HandGrabbing } from 'phosphor-react';
-import { LogoGuia } from './Logo';
+import { HandGrabbing } from "phosphor-react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Icons } from "../assets/icons";
+import { colors } from "../styles/colors";
+import { HeaderProps } from "../types/components";
 
-export function Header() {
+export function Header({ themeDark, setThemeDark }: HeaderProps) {
 	const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
 	const themeToggleLightIcon = document.getElementById(
 		"theme-toggle-light-icon"
 	);
 	// const themeToggleBtn = document.getElementById("theme-toggle");
-
 	const handleToggle = () => {
-		// Change the icons inside the button based on previous settings
-		if (
-			localStorage.theme === "dark" ||
-			(!("theme" in localStorage) &&
-				window.matchMedia("(prefers-color-scheme: dark)").matches)
-		) {
-			themeToggleLightIcon?.classList.remove("hidden");
-		} else {
-			themeToggleDarkIcon?.classList.remove("hidden");
-		}
+		themeDark
+			? themeToggleLightIcon?.classList.remove("hidden")
+			: themeToggleDarkIcon?.classList.remove("hidden");
 
-		// themeToggleBtn?.addEventListener("click", function () {
-		// toggle icons inside button
 		themeToggleDarkIcon?.classList.toggle("hidden");
 		themeToggleLightIcon?.classList.toggle("hidden");
 
-		// if set via local storage previously
-		if (localStorage.getItem("theme")) {
-			if (localStorage.getItem("theme") === "light") {
-				document.documentElement.classList.add("dark");
-				localStorage.setItem("theme", "dark");
-			} else {
-				document.documentElement.classList.remove("dark");
-				localStorage.setItem("theme", "light");
-			}
-
-			// if NOT set via local storage previously
-		} else {
-			if (document.documentElement.classList.contains("dark")) {
-				document.documentElement.classList.remove("dark");
-				localStorage.setItem("theme", "light");
-			} else {
-				document.documentElement.classList.add("dark");
-				localStorage.setItem("theme", "dark");
-			}
-		}
-		// });
+		themeDark
+			? document.documentElement.classList.remove("dark")
+			: document.documentElement.classList.add("dark");
+		setThemeDark(!themeDark);
 	};
 
-
+	// const [themeDark, setThemeDark] = useState(() => {
+	// 	if (localStorage.getItem("theme") === "light") {
+	// 		return false;
+	// 	}
+	// 	return true;
+	// });
+	const navigate = useNavigate();
 
 	return (
 		<header className="w-full py-5 flex items-center gap-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-600 px-4">
-			<HandGrabbing size={40} />
-			<LogoGuia />
+			<HandGrabbing
+				size={40}
+				alt="Guia de Escalada"
+				onClick={() => navigate("/boulders")}
+				className="cursor-pointer dark:fill-purple-300"
+				color={themeDark ? undefined : colors.green[500]}
+			/>
+			<Icons.LogoGuia color={themeDark ? "#E1E1E6" : colors.gray[900]} />
 			<button
 				onClick={() => handleToggle()}
 				id="theme-toggle"
 				data-tooltip-target="tooltip-toggle"
 				type="button"
-				className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 ml-auto"
+				className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 ml-auto"
 			>
+				{/* focus:ring-4 */}
 				<svg
 					aria-hidden="true"
 					id="theme-toggle-dark-icon"
@@ -87,7 +77,6 @@ export function Header() {
 				</svg>
 				<span className="sr-only">Toggle dark mode</span>
 			</button>
-
 		</header>
 	);
 }

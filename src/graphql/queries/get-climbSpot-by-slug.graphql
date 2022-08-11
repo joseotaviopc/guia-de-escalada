@@ -1,5 +1,5 @@
-query GetBoulderBySlug($slug: String) {
-	boulder(where: { slug: $slug }) {
+query GetClimbSpotsBySlug($slug: String) {
+	climbSpot(where: { slug: $slug }) {
 		name
 		conditions
 		description

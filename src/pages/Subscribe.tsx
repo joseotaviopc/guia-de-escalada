@@ -1,28 +1,28 @@
-import { HandGrabbing } from 'phosphor-react';
-import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { LogoGuia } from '../components/Logo';
-import { useCreateSubscriberMutation } from '../graphql/generated';
+import { HandGrabbing } from "phosphor-react";
+import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Icons } from "../assets/icons";
+// import { useCreateSubscriberMutation } from '../graphql/generated';
 
 export function Subscribe() {
 	const navigate = useNavigate();
 
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
 
-	const [createSubscriber, { loading, data }] = useCreateSubscriberMutation();
+	// const [createSubscriber, { loading, data }] = useCreateSubscriberMutation();
 
 	async function handleSubscriber(event: FormEvent) {
 		event?.preventDefault();
 
-		await createSubscriber({
-			variables: {
-				name,
-				email,
-			},
-		});
+		// await createSubscriber({
+		// 	variables: {
+		// 		name,
+		// 		email,
+		// 	},
+		// });
 
-		navigate('/boulders');
+		navigate("/boulders");
 	}
 
 	return (
@@ -31,10 +31,10 @@ export function Subscribe() {
 				<div className="max-w-[640px]">
 					<div className="flex gap-4">
 						<HandGrabbing size={40} />
-						<LogoGuia />
+						<Icons.LogoGuia />
 					</div>
 					<h1 className="mt-8 text-[2.5rem] leading-tight">
-						Contribua com a comunidade de{' '}
+						Contribua com a comunidade de{" "}
 						<strong className="text-blue-500">escalada</strong>, cadastre-se
 					</h1>
 					<p className="mt-4 text-gray-200 leading-relaxed">
@@ -66,7 +66,7 @@ export function Subscribe() {
 						/>
 
 						<button
-							disabled={loading}
+							// disabled={loading}
 							className="block mt-4 bg-green-500 uppercase py-4 rounded font-bold text-sm w-full tracking-wider hover:bg-green-700 transition-colors disabled:opacity-50"
 							type="submit"
 						>
