@@ -4,9 +4,9 @@
 // 4-Send the token back to the client.
 
 // import { GraphQLClient } from 'graphql-request';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { useCreateClimberMutation } from '../../graphql/generated';
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+// import { useCreateClimberMutation } from '../../graphql/generated';
 
 const {
 	// VITE_API_URL,
@@ -21,7 +21,7 @@ const {
 // 	},
 // });
 
-const [createClimber, { loading, data }] = useCreateClimberMutation();
+// const [createClimber, { loading, data }] = useCreateClimberMutation();
 
 export default async function handleCreateClimber(req: any, res: any) {
 	const { email, password, firstname, lastname } = req.body;
@@ -41,12 +41,12 @@ export default async function handleCreateClimber(req: any, res: any) {
 	};
 	// const response = await client.request(CreateClimber, { userData });
 
-	const response = await createClimber({
-		variables: climberData,
-	});
-	// if (!response?.CreateClimber?.id) {
-	if (!response) {
-		res.status(500);
-	}
+	// const response = await createClimber({
+	// 	variables: climberData,
+	// });
+	// // if (!response?.CreateClimber?.id) {
+	// if (!response) {
+	// 	res.status(500);
+	// }
 	res.status(200).json({ token });
 }

@@ -5,19 +5,19 @@
 // 5-Store it inside the request session
 // 6-Return it back to the client
 
-import { withIronSessionApiRoute } from 'iron-session/next';
+import { withIronSessionApiRoute } from "iron-session/next";
 // import { GraphQLClient, gql } from 'graphql-request';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import {
-	useGetClimberByEmailQuery,
-	useUpdateClimberMutation,
-} from '../../graphql/generated';
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+// import {
+// 	useGetClimberByEmailQuery,
+// 	useUpdateClimberMutation,
+// } from '../../graphql/generated';
 
 const cookie = {
 	cookieName: import.meta.env.VITE_COOKIE_NAME,
 	password: import.meta.env.VITE_COOKIE_PASSWORD,
-	cookieOptions: { secure: import.meta.env.VITE_NODE_ENV === 'production' },
+	cookieOptions: { secure: import.meta.env.VITE_NODE_ENV === "production" },
 };
 
 //  VITE_API_URL, VITE_API_ACCESS_TOKEN,
@@ -68,47 +68,47 @@ export default withIronSessionApiRoute(async function signIn(
 	}
 
 	// const getUserResponse = await client.request(getUserByEmailQuery, { email });
-	const getUserResponse = useGetClimberByEmailQuery({
-		variables: {
-			email,
-		},
-	});
+	// const getUserResponse = useGetClimberByEmailQuery({
+	// 	variables: {
+	// 		email,
+	// 	},
+	// });
 
 	// const { client } = getUserResponse;
 
-	if (!getUserResponse) {
-		res.status(400).end();
-		return;
-	}
+	// if (!getUserResponse) {
+	// 	res.status(400).end();
+	// 	return;
+	// }
 
-	const hashedPassword = getUserResponse.data?.climber?.password || '';
-	const isMatch = bcrypt.compare(password, hashedPassword);
+	// const hashedPassword = getUserResponse.data?.climber?.password || '';
+	// const isMatch = bcrypt.compare(password, hashedPassword);
 
-	if (!isMatch) {
-		res.status(400).end();
-		return;
-	}
+	// if (!isMatch) {
+	// 	res.status(400).end();
+	// 	return;
+	// }
 
 	const token = jwt.sign({ email }, VITE_JWT_SECRET, { expiresIn: 36005 });
 	// const updateUserResponse = await client.request(updateUserMutation, {
 
-	const updateUserResponse = useUpdateClimberMutation({
-		variables: {
-			where: { email },
-			data: { token },
-		},
-	});
-	const updateClimber = updateUserResponse;
+	// const updateUserResponse = useUpdateClimberMutation({
+	// 	variables: {
+	// 		where: { email },
+	// 		data: { token },
+	// 	},
+	// });
+	// const updateClimber = updateUserResponse;
 
-	if (!updateUserResponse) {
-		res.status(500).end();
-		return;
-	}
-	req.session.user = {
-		token: updateClimber[1].data?.updateClimber?.token,
-	};
+	// if (!updateUserResponse) {
+	// 	res.status(500).end();
+	// 	return;
+	// }
+	// req.session.user = {
+	// 	token: updateClimber[1].data?.updateClimber?.token,
+	// };
 
 	await req.session.save();
-	res.status(200).json({ token: updateClimber[1].data?.updateClimber?.token });
+	// res.status(200).json({ token: updateClimber[1].data?.updateClimber?.token });
 },
 cookie);
