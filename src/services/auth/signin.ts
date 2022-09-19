@@ -22,7 +22,7 @@ export async function signInWithGoogle() {
 		// ...
 		console.log(user);
 		return user;
-	} catch (error) {
+	} catch (error: any) {
 		// Handle Errors here.
 		const errorCode = error.code;
 		const errorMessage = error.message;
@@ -45,7 +45,7 @@ export async function signInWithEmail({ email, password }: any) {
 		);
 		// Signed in
 		const user = userCredential.user;
-	} catch (error) {
+	} catch (error: any) {
 		const errorCode = error.code;
 		const errorMessage = error.message;
 	}
