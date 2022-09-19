@@ -4,8 +4,16 @@ import { Boulder } from "./Boulder";
 import classNames from "classnames";
 
 export function Sidebar({ themeDark, setThemeDark }: SidebarProps) {
-	const { data } = useGetClimbSpotsQuery();
+	const { loading, error, data } = useGetClimbSpotsQuery();
 
+	if (loading) return <h2>Carregando...</h2>;
+	if (error)
+		return (
+			<>
+				<h2>Erros nos dados. :( </h2>
+				{console.log(JSON.stringify(error, null, 2))}
+			</>
+		);
 	return (
 		<aside className="w-80 bg-gray-50 dark:bg-gray-700 p-6 border-r border-gray-100	dark:border-gray-600 hidden lg:block">
 			<span
