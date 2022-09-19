@@ -5069,6 +5069,21 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type CreateClimbSpotMutationVariables = Exact<{
+  name: Scalars['String'];
+  slug: Scalars['String'];
+  description: Scalars['String'];
+  conditions?: InputMaybe<Scalars['String']>;
+  graduation: Graduation;
+  category: Category;
+  videourl: Scalars['String'];
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+}>;
+
+
+export type CreateClimbSpotMutation = { __typename?: 'Mutation', createClimbSpot?: { __typename?: 'ClimbSpot', id: string, name: string, slug: string, description: string, conditions?: string | null, videourl: string, updatedAt: any, photos: Array<{ __typename?: 'Asset', fileName: string }>, location: { __typename?: 'Location', latitude: number, longitude: number } } | null };
+
 export type GetClimbSpotsBySlugQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']>;
 }>;
@@ -5082,6 +5097,62 @@ export type GetClimbSpotsQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetClimbSpotsQuery = { __typename?: 'Query', climbSpots: Array<{ __typename?: 'ClimbSpot', id: string, name: string, slug: string, description: string, conditions?: string | null, videourl: string, updatedAt: any, photos: Array<{ __typename?: 'Asset', fileName: string }>, location: { __typename?: 'Location', latitude: number, longitude: number } }> };
 
 
+export const CreateClimbSpotDocument = gql`
+    mutation CreateClimbSpot($name: String!, $slug: String!, $description: String!, $conditions: String, $graduation: Graduation!, $category: Category!, $videourl: String!, $latitude: Float!, $longitude: Float!) {
+  createClimbSpot(
+    data: {description: $description, name: $name, videourl: $videourl, slug: $slug, category: $category, graduation: $graduation, conditions: $conditions, location: {latitude: $latitude, longitude: $longitude}}
+  ) {
+    id
+    name
+    slug
+    description
+    conditions
+    videourl
+    updatedAt
+    photos {
+      fileName
+    }
+    location {
+      latitude
+      longitude
+    }
+  }
+}
+    `;
+export type CreateClimbSpotMutationFn = Apollo.MutationFunction<CreateClimbSpotMutation, CreateClimbSpotMutationVariables>;
+
+/**
+ * __useCreateClimbSpotMutation__
+ *
+ * To run a mutation, you first call `useCreateClimbSpotMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateClimbSpotMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createClimbSpotMutation, { data, loading, error }] = useCreateClimbSpotMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      slug: // value for 'slug'
+ *      description: // value for 'description'
+ *      conditions: // value for 'conditions'
+ *      graduation: // value for 'graduation'
+ *      category: // value for 'category'
+ *      videourl: // value for 'videourl'
+ *      latitude: // value for 'latitude'
+ *      longitude: // value for 'longitude'
+ *   },
+ * });
+ */
+export function useCreateClimbSpotMutation(baseOptions?: Apollo.MutationHookOptions<CreateClimbSpotMutation, CreateClimbSpotMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateClimbSpotMutation, CreateClimbSpotMutationVariables>(CreateClimbSpotDocument, options);
+      }
+export type CreateClimbSpotMutationHookResult = ReturnType<typeof useCreateClimbSpotMutation>;
+export type CreateClimbSpotMutationResult = Apollo.MutationResult<CreateClimbSpotMutation>;
+export type CreateClimbSpotMutationOptions = Apollo.BaseMutationOptions<CreateClimbSpotMutation, CreateClimbSpotMutationVariables>;
 export const GetClimbSpotsBySlugDocument = gql`
     query GetClimbSpotsBySlug($slug: String) {
   climbSpot(where: {slug: $slug}) {

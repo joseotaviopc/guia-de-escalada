@@ -1,0 +1,39 @@
+mutation CreateClimbSpot(
+	$name: String!
+	$slug: String!
+	$description: String!
+	$conditions: String
+	$graduation: Graduation!
+	$category: Category!
+	$videourl: String!
+	$latitude: Float!
+	$longitude: Float!
+) {
+	createClimbSpot(
+		data: {
+			description: $description
+			name: $name
+			videourl: $videourl
+			slug: $slug
+			category: $category
+			graduation: $graduation
+			conditions: $conditions
+			location: { latitude: $latitude, longitude: $longitude }
+		}
+	) {
+		id
+		name
+		slug
+		description
+		conditions
+		videourl
+		updatedAt
+		photos {
+			fileName
+		}
+		location {
+			latitude
+			longitude
+		}
+	}
+}

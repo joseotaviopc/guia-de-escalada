@@ -1,114 +1,52 @@
-// 1-Run a query in GraphCMS to getUserByEmail.
-// 2-Compare the password from sign-in form and the password stored in our database.
-// 3-Assign a fresh token if the passwords match and
-// 4-Store it in GraphCMS Database
-// 5-Store it inside the request session
-// 6-Return it back to the client
-
-import { withIronSessionApiRoute } from 'iron-session/next';
-// import { GraphQLClient, gql } from 'graphql-request';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import {
-	useGetClimberByEmailQuery,
-	useUpdateClimberMutation,
-} from '../../graphql/generated';
+	getAuth,
+	signInWithPopup,
+	GoogleAuthProvider,
+	signInWithEmailAndPassword,
+} from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../../../firebase-config";
+const provider = new GoogleAuthProvider();
 
-const cookie = {
-	cookieName: import.meta.env.VITE_COOKIE_NAME,
-	password: import.meta.env.VITE_COOKIE_PASSWORD,
-	cookieOptions: { secure: import.meta.env.VITE_NODE_ENV === 'production' },
-};
+// const auth = getAuth();
 
-//  VITE_API_URL, VITE_API_ACCESS_TOKEN,
-const { VITE_JWT_SECRET } = import.meta.env;
-
-// const client = new GraphQLClient(VITE_API_URL, {
-// 	headers: {
-// 		Authorization: `Bearer ${VITE_API_ACCESS_TOKEN}`,
-// 	},
-// });
-// const { data } = useGetClimberByEmailQuery({
-//   variables: {
-//     email
-//   }
-// });
-
-// gql`
-// 	query getUserByEmailQuery($email: String!) {
-// 		nextUser(where: { email: $email }, stage: DRAFT) {
-// 			id
-// 			email
-// 			password
-// 		}
-// 	}
-// `;
-
-// const updateUserMutation = gql`
-// 	mutation updateUser(
-// 		$where: NextUserWhereUniqueInput!
-// 		$data: NextUserUpdateInput!
-// 	) {
-// 		updateNextUser(data: $data, where: $where) {
-// 			token
-// 			email
-// 		}
-// 	}
-// `;
-
-export default withIronSessionApiRoute(async function signIn(
-	req: any,
-	res: any
-) {
-	const { email, password } = req.body;
-
-	if (!email || !password) {
-		res.status(400).end();
-		return;
+// Login Social Google
+export async function signInWithGoogle() {
+	try {
+		const result = await signInWithPopup(auth, provider);
+		// This gives you a Google Access Token. You can use it to access the Google API.
+		const credential = GoogleAuthProvider.credentialFromResult(result);
+		const token = credential?.accessToken;
+		// The signed-in user info.
+		const user = result.user;
+		// ...
+		console.log(user);
+		return user;
+	} catch (error) {
+		// Handle Errors here.
+		const errorCode = error.code;
+		const errorMessage = error.message;
+		// The email of the user's account used.
+		const email = error.customData.email;
+		// The AuthCredential type that was used.
+		const credential = GoogleAuthProvider.credentialFromError(error);
+		// ...
+		return null;
 	}
+}
 
-	// const getUserResponse = await client.request(getUserByEmailQuery, { email });
-	const getUserResponse = useGetClimberByEmailQuery({
-		variables: {
+// Login com email e senha
+export async function signInWithEmail({ email, password }: any) {
+	try {
+		const userCredential = await signInWithEmailAndPassword(
+			auth,
 			email,
-		},
-	});
-
-	// const { client } = getUserResponse;
-
-	if (!getUserResponse) {
-		res.status(400).end();
-		return;
+			password
+		);
+		// Signed in
+		const user = userCredential.user;
+	} catch (error) {
+		const errorCode = error.code;
+		const errorMessage = error.message;
 	}
-
-	const hashedPassword = getUserResponse.data?.climber?.password || '';
-	const isMatch = bcrypt.compare(password, hashedPassword);
-
-	if (!isMatch) {
-		res.status(400).end();
-		return;
-	}
-
-	const token = jwt.sign({ email }, VITE_JWT_SECRET, { expiresIn: 36005 });
-	// const updateUserResponse = await client.request(updateUserMutation, {
-
-	const updateUserResponse = useUpdateClimberMutation({
-		variables: {
-			where: { email },
-			data: { token },
-		},
-	});
-	const updateClimber = updateUserResponse;
-
-	if (!updateUserResponse) {
-		res.status(500).end();
-		return;
-	}
-	req.session.user = {
-		token: updateClimber[1].data?.updateClimber?.token,
-	};
-
-	await req.session.save();
-	res.status(200).json({ token: updateClimber[1].data?.updateClimber?.token });
-},
-cookie);
+}

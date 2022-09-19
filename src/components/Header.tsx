@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Icons } from "../assets/icons";
 import { colors } from "../styles/colors";
 import { HeaderProps } from "../types/components";
+import { useUser } from "../context/user-context";
 
 export function Header({ themeDark, setThemeDark }: HeaderProps) {
 	const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
@@ -32,23 +33,34 @@ export function Header({ themeDark, setThemeDark }: HeaderProps) {
 	// 	return true;
 	// });
 	const navigate = useNavigate();
-
+	const { user } = useUser();
+	console.log(user.photoURL);
 	return (
 		<header className="w-full py-5 flex items-center gap-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-600 px-4">
 			<HandGrabbing
 				size={40}
 				alt="Guia de Escalada"
 				onClick={() => navigate("/boulders")}
-				className="cursor-pointer dark:fill-purple-300"
+				className="cursor-pointer dark:fill-purple-300 justify-self-start"
 				color={themeDark ? undefined : colors.green[500]}
 			/>
 			<Icons.LogoGuia color={themeDark ? "#E1E1E6" : colors.gray[900]} />
+			{user && (
+				<div className="flex gap-2 ml-auto mr-4">
+					<span>{user.displayName.split(" ")[0]}</span>
+					<img
+						src={user.photoURL ? user.photoURL : ""}
+						// alt={user.displayName}
+						className="w-8 h-8 border-solid rounded-full"
+					/>
+				</div>
+			)}
 			<button
 				onClick={() => handleToggle()}
 				id="theme-toggle"
 				data-tooltip-target="tooltip-toggle"
 				type="button"
-				className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 ml-auto"
+				className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 justify-self-end"
 			>
 				{/* focus:ring-4 */}
 				<svg
